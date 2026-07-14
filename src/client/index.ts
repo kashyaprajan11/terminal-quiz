@@ -15,10 +15,17 @@ async function main() {
     (message) => {
       if (message !== null) {
         const body = JSON.parse(message.content.toString());
+        console.log("DEBUGGER: body", body);
         if (body.event === "room_created") {
           console.log(
             `Room Created. Share ${body.code} with your friends to join!`,
           );
+        } else if (body.event === "room_join_failure") {
+          console.log(`Error: ${body.message}`);
+        } else if (body.event === "room_join_success") {
+          console.log("Room joined successfully");
+        } else if (body.event === "new_player_joined") {
+          console.log(`${body.message}, Name: ${body.payload.name}`);
         }
       }
     },
