@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // environment: modern JS, Bun globals (includes Node types)
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "types": ["bun"],
+
+    // bun runs ts directly — tsc only type-checks, never outputs js
+    "noEmit": true,
+
+    // strictness: catch mistakes early while learning
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true
+  }
+}
