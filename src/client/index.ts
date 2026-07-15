@@ -15,17 +15,29 @@ async function main() {
     (message) => {
       if (message !== null) {
         const body = JSON.parse(message.content.toString());
-        console.log("DEBUGGER: body", body);
+
         if (body.event === "room_created") {
           console.log(
             `Room Created. Share ${body.code} with your friends to join!`,
           );
+          ch.assertExchange(body.code, "fanout");
+          ch.bindQueue(q.queue, body.code, "");
         } else if (body.event === "room_join_failure") {
           console.log(`Error: ${body.message}`);
         } else if (body.event === "room_join_success") {
           console.log("Room joined successfully");
+          ch.assertExchange(body.code, "fanout");
+          ch.bindQueue(q.queue, body.code, "");
         } else if (body.event === "new_player_joined") {
           console.log(`${body.message}, Name: ${body.payload.name}`);
+        }
+
+        if (body.event === "total_players_in_room") {
+          for (let player of body.players) {
+            console.log(`Total Player:
+              ${player.name}
+              `);
+          }
         }
       }
     },
@@ -33,7 +45,6 @@ async function main() {
       noAck: true,
     },
   );
-
   rl.question(
     "Hello, Create room or join room? Press 1 for create and 2 for join\n",
     (answer: string | number) => {

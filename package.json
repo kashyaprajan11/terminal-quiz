@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "bun run src/server/index.ts",
-    "client": "bun run src/client/index.ts",
+    "server": "bun run --watch src/server/index.ts",
+    "client": "bun run --watch src/client/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
