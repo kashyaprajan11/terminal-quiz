@@ -1,3 +1,5 @@
+import { Player } from "./server/rooms";
+
 export interface CreateRoom {
   type: "create_room";
   name: string;
@@ -11,11 +13,10 @@ export interface JoinRoom {
   replyTo: string;
 }
 
-export interface RoomCreated {
-  type: "room_created";
+export interface RoomEntered {
+  type: "room_entered";
   code: string;
-  name: string;
-  replyTo: string;
+  isAdmin: boolean;
 }
 
 export interface ErrorMessage {
@@ -29,5 +30,20 @@ export interface RoomUpdate {
   admin: string;
 }
 
+export interface TotalPlayersInRoom {
+  type: "total_players_in_room";
+  players: Player[];
+}
+
+export interface RoomJoinFailure {
+  type: "room_join_failure";
+  error: string;
+}
+
 export type ClientMessage = CreateRoom | JoinRoom;
-export type ServerMessage = RoomCreated | ErrorMessage | RoomUpdate;
+export type ServerMessage =
+  | RoomEntered
+  | ErrorMessage
+  | RoomUpdate
+  | TotalPlayersInRoom
+  | RoomJoinFailure;
