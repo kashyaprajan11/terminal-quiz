@@ -13,6 +13,12 @@ export interface JoinRoom {
   replyTo: string;
 }
 
+export interface StartGame {
+  type: "start_game";
+  code: string;
+  replyTo: string;
+}
+
 export interface RoomEntered {
   type: "room_entered";
   code: string;
@@ -40,7 +46,7 @@ export interface RoomJoinFailure {
   error: string;
 }
 
-export type ClientMessage = CreateRoom | JoinRoom;
+export type ClientMessage = CreateRoom | JoinRoom | StartGame;
 export type ServerMessage =
   | RoomEntered
   | ErrorMessage

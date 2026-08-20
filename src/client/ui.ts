@@ -1,9 +1,11 @@
 import * as readline from "node:readline/promises";
 import { ClientMessage } from "../messages";
+import { ClientState } from "../types";
 
 export async function askRoomIntent(
   rl: readline.Interface,
   queue: string,
+  clientState: ClientState,
 ): Promise<ClientMessage> {
   let choice = (
     await rl.question(
@@ -20,9 +22,22 @@ export async function askRoomIntent(
   const name = (await rl.question("What's your name?\n")).trim();
   if (choice === "1") {
     console.log("Welcome, ", name);
+    clientState.isAdmin = true;
     return { type: "create_room", name, replyTo: queue };
   }
 
   const code = (await rl.question("Room code?\n")).trim();
   return { type: "join_room", name, replyTo: queue, code };
+}
+
+export async function startGameTriggerQuestion(
+  rl: readline.Interface,
+  numberOfPlayers: Number,
+) {
+  let choice = (
+    await rl.question(
+      `${numberOfPlayers} players have joined, max limit is 4, press S to start`,
+    )
+  ).trim();
+  return choice.toLocaleLowerCase() === "s";
 }

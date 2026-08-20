@@ -1,6 +1,6 @@
 import amqp from "amqplib";
-import { Room, updateRoom } from "./rooms";
-import { channelConnect, sendTo, broadcast } from "./amqp";
+import { Room } from "./rooms";
+import { channelConnect } from "./amqp";
 import { ClientMessage } from "../messages";
 import { handleCreateRoom, handleJoinRoom } from "./handlers";
 
@@ -20,6 +20,10 @@ const consumeMessage = async (
       }
       case "join_room": {
         handleJoinRoom(channel, rooms, msg);
+        break;
+      }
+      case "start_game": {
+        console.log("Game start triggered by admin");
         break;
       }
       default:
